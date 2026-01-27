@@ -584,54 +584,154 @@
     }
 
     /* ═══════════════════════════════════════════════════════════
-       Gallery Section
+       Gallery Section - Editorial Style (Mobile-First)
        ═══════════════════════════════════════════════════════════ */
     .gallery {
       background-color: var(--warm-white);
-      padding: var(--space-xl) var(--space-md);
+      padding: var(--space-lg) 0;
     }
 
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      max-width: 1000px;
+    .gallery-header {
+      text-align: center;
+      margin-bottom: var(--space-md);
+      padding: 0 var(--space-md);
+    }
+
+    .gallery-showcase {
+      max-width: 1100px;
       margin: 0 auto;
     }
 
-    .gallery-item {
-      aspect-ratio: 4 / 5;
-      overflow: hidden;
+    /* Mobile-first: vertical stack */
+    .showcase-item {
+      margin-bottom: var(--space-lg);
+    }
+
+    .showcase-image img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .showcase-content {
+      padding: var(--space-md);
+      text-align: center;
+    }
+
+    .showcase-label {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gentle-brown);
+      margin-bottom: var(--space-xs);
+    }
+
+    .showcase-title {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--deep-charcoal);
+      margin-bottom: var(--space-xs);
+      line-height: 1.2;
+    }
+
+    .showcase-description {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--gentle-brown);
+      line-height: 1.6;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    /* Desktop: side by side layout */
+    @media (min-width: 768px) {
+      .gallery {
+        padding: var(--space-xl) 0;
+      }
+
+      .showcase-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--space-xl);
+      }
+
+      .showcase-image {
+        flex: 0 0 55%;
+      }
+
+      .showcase-image img {
+        aspect-ratio: 4 / 5;
+      }
+
+      .showcase-content {
+        flex: 1;
+        padding: var(--space-lg);
+        text-align: left;
+      }
+
+      .showcase-title {
+        font-size: clamp(2rem, 3.5vw, 2.8rem);
+      }
+
+      .showcase-description {
+        margin: 0;
+      }
+
+      /* Alternate: image on right */
+      .showcase-item:nth-child(even) {
+        flex-direction: row-reverse;
+      }
+
+      .showcase-item:nth-child(even) .showcase-content {
+        text-align: right;
+      }
+
+      .showcase-item:nth-child(even) .showcase-description {
+        margin-left: auto;
+      }
+    }
+
+    /* More Works Mini Grid */
+    .gallery-more {
+      max-width: 900px;
+      margin: var(--space-lg) auto 0;
+      padding: 0 var(--space-sm);
+    }
+
+    .gallery-more-label {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gentle-brown);
+      text-align: center;
+      margin-bottom: var(--space-sm);
+    }
+
+    .gallery-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+    }
+
+    .gallery-mini-grid img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
       background-color: var(--soft-gray);
     }
 
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s ease, filter 0.6s ease;
-      filter: grayscale(15%);
-    }
-
-    .gallery-item:hover img {
-      transform: scale(1.03);
-      filter: grayscale(0%);
-    }
-
-    @media (max-width: 768px) {
-      .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 4px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .gallery-item {
-        aspect-ratio: 1;
+    @media (min-width: 768px) {
+      .gallery-mini-grid {
+        gap: 8px;
       }
     }
 
@@ -884,39 +984,62 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════
-         Gallery Section
+         Gallery Section - Editorial Style
          ═══════════════════════════════════════════════════════════ -->
     <section class="gallery">
-      <div class="gallery-grid">
-        <!-- Row 1 -->
-        <div class="gallery-item reveal">
-          <img src="https://lh3.googleusercontent.com/p/AF1QipMpkHo0LyJmVMsplevGVtPz5chGjlVYUQtEYb9l=w400-h500-k-no" alt="V1 Hair Salon" width="400" height="500">
-        </div>
-        <div class="gallery-item reveal reveal-delay-1">
-          <img src="https://lh3.googleusercontent.com/p/AF1QipOi8FaT3IX94YXbvJmjzafpXOmw_jbZiJcVh5RX=w400-h500-k-no" alt="V1 Hair Salon" width="400" height="500">
-        </div>
-        <div class="gallery-item reveal reveal-delay-2">
-          <img src="https://lh3.googleusercontent.com/p/AF1QipPhaFuE_tP0pyk-2GN2pho6q7r0nPdCB5Oq7yYD=w400-h500-k-no" alt="V1 Hair Salon" width="400" height="500">
-        </div>
-        <!-- Row 2 -->
-        <div class="gallery-item reveal reveal-delay-1">
-          <img src="https://lh3.googleusercontent.com/p/AF1QipMcje6afRacfmwQaIDhiSuHhuAQGcMxR-yeQVOp=w400-h500-k-no" alt="V1 Hair Salon" width="400" height="500">
-        </div>
-        <div class="gallery-item reveal reveal-delay-2">
-          <img src="https://lh3.googleusercontent.com/p/AF1QipMvZEmvYMQLXWG5_idBKgR8y2hBzgmwP0wTADVO=w400-h500-k-no" alt="V1 Hair Salon" width="400" height="500">
-        </div>
-        <div class="gallery-item reveal reveal-delay-3">
-          <img src="https://lh3.googleusercontent.com/p/AF1QipOa889CxATvTbbq7Rh2SfaonvOnNOx3c0mu6CEM=w400-h500-k-no" alt="V1 Hair Salon" width="400" height="500">
-        </div>
-        <!-- Row 3 -->
-        <div class="gallery-item reveal reveal-delay-2">
-          <img src="https://lh3.googleusercontent.com/p/AF1QipPdXWF6Vt_WNFIkQ4-b97pLBbQMoV9kpaUdOEsR=w400-h500-k-no" alt="V1 Hair Salon" width="400" height="500">
-        </div>
-        <div class="gallery-item reveal reveal-delay-3">
-          <img src="https://lh3.googleusercontent.com/p/AF1QipMj5b7tB0FfJF6tQlA1QXf65SnsY-wlBOyy-Ep0=w400-h500-k-no" alt="V1 Hair Salon" width="400" height="500">
-        </div>
-        <div class="gallery-item reveal reveal-delay-4">
-          <img src="https://lh3.googleusercontent.com/p/AF1QipMOO-EcVsHhavG-BMWZPjt5fHtHhWBBx8qMutV9=w400-h500-k-no" alt="V1 Hair Salon" width="400" height="500">
+      <div class="gallery-header reveal">
+        <p class="section-label">Our Work</p>
+        <h2 class="section-title">Signature Styles</h2>
+      </div>
+
+      <div class="gallery-showcase">
+        <!-- Style 1 -->
+        <article class="showcase-item reveal">
+          <div class="showcase-image">
+            <img src="images/style-1.jpg" alt="Natural Waves" loading="lazy">
+          </div>
+          <div class="showcase-content">
+            <p class="showcase-label">Signature Style</p>
+            <h3 class="showcase-title">Natural Waves</h3>
+            <p class="showcase-description">Effortless, flowing waves that frame the face beautifully. A timeless look for any occasion.</p>
+          </div>
+        </article>
+
+        <!-- Style 2 -->
+        <article class="showcase-item reveal">
+          <div class="showcase-image">
+            <img src="images/style-2.jpg" alt="Korean Layered" loading="lazy">
+          </div>
+          <div class="showcase-content">
+            <p class="showcase-label">K-Beauty</p>
+            <h3 class="showcase-title">Korean Layered</h3>
+            <p class="showcase-description">Soft, face-framing layers inspired by Korean beauty trends. Light, airy, and flattering.</p>
+          </div>
+        </article>
+
+        <!-- Style 3 -->
+        <article class="showcase-item reveal">
+          <div class="showcase-image">
+            <img src="images/style-3.jpg" alt="Silver Ash" loading="lazy">
+          </div>
+          <div class="showcase-content">
+            <p class="showcase-label">Color Art</p>
+            <h3 class="showcase-title">Silver Ash</h3>
+            <p class="showcase-description">A sophisticated silver-ash tone that adds dimension and a modern edge.</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- More Works -->
+      <div class="gallery-more reveal">
+        <p class="gallery-more-label">More of Our Work</p>
+        <div class="gallery-mini-grid">
+          <img src="images/work-1.jpg" alt="V1 Hair Salon" loading="lazy">
+          <img src="images/work-2.jpg" alt="V1 Hair Salon" loading="lazy">
+          <img src="images/work-3.jpg" alt="V1 Hair Salon" loading="lazy">
+          <img src="images/work-4.jpg" alt="V1 Hair Salon" loading="lazy">
+          <img src="images/work-5.jpg" alt="V1 Hair Salon" loading="lazy">
+          <img src="images/work-6.jpg" alt="V1 Hair Salon" loading="lazy">
         </div>
       </div>
     </section>
@@ -1070,7 +1193,7 @@
       // Lightbox for gallery images
       var lightbox = document.getElementById('lightbox');
       var lightboxImg = lightbox.querySelector('img');
-      var galleryItems = document.querySelectorAll('.gallery-item img');
+      var galleryItems = document.querySelectorAll('.showcase-image img, .gallery-mini-grid img');
 
       galleryItems.forEach(function(img) {
         img.addEventListener('click', function() {
