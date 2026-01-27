@@ -1,0 +1,17 @@
+# References (development only)
+references/
+
+# Screenshots (development only)
+screenshot*.png
+
+# macOS
+.DS_Store
+
+# Editor
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Logs
+*.log
