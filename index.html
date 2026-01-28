@@ -1286,22 +1286,24 @@
         }
       });
 
-      // Touch gestures - bindto img element directly for better mobile support
+      // Touch gestures - bind to img element directly for better mobile support
       lightboxImg.addEventListener('touchstart', function(e) {
         touchStartX = e.changedTouches[0].screenX;
         touchStartY = e.changedTouches[0].screenY;
+        // Disable transition for immediate response
+        lightboxImg.style.transition = 'none';
       }, { passive: true });
 
       lightboxImg.addEventListener('touchmove', function(e) {
         var deltaX = e.changedTouches[0].screenX - touchStartX;
         var deltaY = e.changedTouches[0].screenY - touchStartY;
-        // Visual feedback during vertical swipe
+        // Visual feedback during vertical swipe (keep scale, add translate)
         if (Math.abs(deltaY) > Math.abs(deltaX)) {
-          lightboxImg.style.transform = 'translateY(' + deltaY * 0.5 + 'px)';
+          lightboxImg.style.transform = 'scale(1) translateY(' + deltaY * 0.5 + 'px)';
           lightboxImg.style.opacity = Math.max(0, 1 - Math.abs(deltaY) / 300);
         } else {
           // Reset if switching to horizontal
-          lightboxImg.style.transform = '';
+          lightboxImg.style.transform = 'scale(1)';
           lightboxImg.style.opacity = '';
         }
       }, { passive: true });
@@ -1314,6 +1316,7 @@
 
       // Handle touch interruption (e.g., incoming call)
       lightboxImg.addEventListener('touchcancel', function() {
+        lightboxImg.style.transition = '';
         lightboxImg.style.transform = '';
         lightboxImg.style.opacity = '';
       }, { passive: true });
@@ -1321,7 +1324,10 @@
       function handleSwipe() {
         var deltaX = touchEndX - touchStartX;
         var deltaY = touchEndY - touchStartY;
-        var threshold = 80;
+        var threshold = 50; // Lowered for easier triggering
+
+        // Restore transition
+        lightboxImg.style.transition = '';
 
         // Vertical swipe - close
         if (Math.abs(deltaY) > threshold && Math.abs(deltaY) > Math.abs(deltaX)) {
