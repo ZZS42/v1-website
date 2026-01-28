@@ -15,3 +15,19 @@ screenshot*.png
 
 # Logs
 *.log
+
+# Node modules
+node_modules/
+
+# Large reference projects (use git submodules if needed)
+references/cal.com/
+references/supabase/
+references/novu/
+references/react-hook-form/
+
+# Lint configs and test scripts (dev only)
+.htmlhintrc
+.stylelintrc.json
+test.sh
+package.json
+package-lock.json
