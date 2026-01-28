@@ -813,9 +813,6 @@
       object-fit: contain;
       transform: scale(0.95);
       transition: transform 0.3s ease;
-      touch-action: none; /* Disable browser default touch behaviors */
-      user-select: none;
-      -webkit-user-drag: none;
     }
 
     .lightbox.active img {
@@ -1235,18 +1232,11 @@
         });
       });
 
-      // Lightbox for gallery images with touch gestures
-      // TODO: Consider Hammer.js (~7KB) if pinch-to-zoom is needed in the future
+      // Lightbox for gallery images
       var lightbox = document.getElementById('lightbox');
       var lightboxImg = lightbox.querySelector('img');
       var galleryItems = Array.from(document.querySelectorAll('.showcase-image img, .gallery-mini-grid img'));
       var currentIndex = 0;
-
-      // Touch gesture variables
-      var touchStartX = 0;
-      var touchStartY = 0;
-      var touchEndX = 0;
-      var touchEndY = 0;
 
       function openLightbox(index) {
         currentIndex = index;
@@ -1258,19 +1248,13 @@
       function closeLightbox() {
         lightbox.classList.remove('active');
         document.body.style.overflow = '';
-        lightboxImg.style.transform = '';
-        lightboxImg.style.opacity = '';
       }
 
       function showImage(index) {
         if (index < 0) index = galleryItems.length - 1;
         if (index >= galleryItems.length) index = 0;
         currentIndex = index;
-        var src = galleryItems[index].src;
-        lightboxImg.src = src;
-        // Reset transform after navigation
-        lightboxImg.style.transform = '';
-        lightboxImg.style.opacity = '';
+        lightboxImg.src = galleryItems[index].src;
       }
 
       galleryItems.forEach(function(img, index) {
@@ -1279,74 +1263,12 @@
         });
       });
 
-      // Close lightbox on click
+      // Close lightbox on click (background or close button)
       lightbox.addEventListener('click', function(e) {
         if (e.target === lightbox || e.target.classList.contains('lightbox-close')) {
           closeLightbox();
         }
       });
-
-      // Touch gestures - bind to img element directly for better mobile support
-      lightboxImg.addEventListener('touchstart', function(e) {
-        touchStartX = e.changedTouches[0].screenX;
-        touchStartY = e.changedTouches[0].screenY;
-        // Disable transition for immediate response
-        lightboxImg.style.transition = 'none';
-      }, { passive: true });
-
-      lightboxImg.addEventListener('touchmove', function(e) {
-        var deltaX = e.changedTouches[0].screenX - touchStartX;
-        var deltaY = e.changedTouches[0].screenY - touchStartY;
-        // Visual feedback during vertical swipe (keep scale, add translate)
-        if (Math.abs(deltaY) > Math.abs(deltaX)) {
-          lightboxImg.style.transform = 'scale(1) translateY(' + deltaY * 0.5 + 'px)';
-          lightboxImg.style.opacity = Math.max(0, 1 - Math.abs(deltaY) / 300);
-        } else {
-          // Reset if switching to horizontal
-          lightboxImg.style.transform = 'scale(1)';
-          lightboxImg.style.opacity = '';
-        }
-      }, { passive: true });
-
-      lightboxImg.addEventListener('touchend', function(e) {
-        touchEndX = e.changedTouches[0].screenX;
-        touchEndY = e.changedTouches[0].screenY;
-        handleSwipe();
-      }, { passive: true });
-
-      // Handle touch interruption (e.g., incoming call)
-      lightboxImg.addEventListener('touchcancel', function() {
-        lightboxImg.style.transition = '';
-        lightboxImg.style.transform = '';
-        lightboxImg.style.opacity = '';
-      }, { passive: true });
-
-      function handleSwipe() {
-        var deltaX = touchEndX - touchStartX;
-        var deltaY = touchEndY - touchStartY;
-        var threshold = 50; // Lowered for easier triggering
-
-        // Restore transition
-        lightboxImg.style.transition = '';
-
-        // Vertical swipe - close
-        if (Math.abs(deltaY) > threshold && Math.abs(deltaY) > Math.abs(deltaX)) {
-          closeLightbox();
-        }
-        // Horizontal swipe - navigate
-        else if (Math.abs(deltaX) > threshold && Math.abs(deltaX) > Math.abs(deltaY)) {
-          if (deltaX > 0) {
-            showImage(currentIndex - 1); // Swipe right = previous
-          } else {
-            showImage(currentIndex + 1); // Swipe left = next
-          }
-        }
-        // Reset transform if not closing
-        else {
-          lightboxImg.style.transform = '';
-          lightboxImg.style.opacity = '';
-        }
-      }
 
       // Keyboard navigation
       document.addEventListener('keydown', function(e) {
