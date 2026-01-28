@@ -1,0 +1,8 @@
+# 不部署的目录
+references/
+node_modules/
+.git/
+*.md
+test.sh
+.htmlhintrc
+.stylelintrc.json
