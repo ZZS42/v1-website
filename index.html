@@ -1233,6 +1233,7 @@
       });
 
       // Lightbox for gallery images with touch gestures
+      // TODO: Consider Hammer.js (~7KB) if pinch-to-zoom is needed in the future
       var lightbox = document.getElementById('lightbox');
       var lightboxImg = lightbox.querySelector('img');
       var galleryItems = Array.from(document.querySelectorAll('.showcase-image img, .gallery-mini-grid img'));
