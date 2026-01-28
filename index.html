@@ -1246,8 +1246,7 @@
 
       function openLightbox(index) {
         currentIndex = index;
-        var src = galleryItems[index].src.replace(/=w\d+-h\d+-k-no/, '=w1200-h1200-k-no');
-        lightboxImg.src = src;
+        lightboxImg.src = galleryItems[index].src;
         lightbox.classList.add('active');
         document.body.style.overflow = 'hidden';
       }
@@ -1263,8 +1262,11 @@
         if (index < 0) index = galleryItems.length - 1;
         if (index >= galleryItems.length) index = 0;
         currentIndex = index;
-        var src = galleryItems[index].src.replace(/=w\d+-h\d+-k-no/, '=w1200-h1200-k-no');
+        var src = galleryItems[index].src;
         lightboxImg.src = src;
+        // Reset transform after navigation
+        lightboxImg.style.transform = '';
+        lightboxImg.style.opacity = '';
       }
 
       galleryItems.forEach(function(img, index) {
@@ -1289,10 +1291,14 @@
       lightbox.addEventListener('touchmove', function(e) {
         var deltaX = e.changedTouches[0].screenX - touchStartX;
         var deltaY = e.changedTouches[0].screenY - touchStartY;
-        // Visual feedback during swipe
+        // Visual feedback during vertical swipe
         if (Math.abs(deltaY) > Math.abs(deltaX)) {
           lightboxImg.style.transform = 'translateY(' + deltaY * 0.5 + 'px)';
-          lightboxImg.style.opacity = 1 - Math.abs(deltaY) / 300;
+          lightboxImg.style.opacity = Math.max(0, 1 - Math.abs(deltaY) / 300);
+        } else {
+          // Reset if switching to horizontal
+          lightboxImg.style.transform = '';
+          lightboxImg.style.opacity = '';
         }
       }, { passive: true });
 
@@ -1300,6 +1306,12 @@
         touchEndX = e.changedTouches[0].screenX;
         touchEndY = e.changedTouches[0].screenY;
         handleSwipe();
+      }, { passive: true });
+
+      // Handle touch interruption (e.g., incoming call)
+      lightbox.addEventListener('touchcancel', function() {
+        lightboxImg.style.transform = '';
+        lightboxImg.style.opacity = '';
       }, { passive: true });
 
       function handleSwipe() {
