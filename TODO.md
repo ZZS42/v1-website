@@ -22,26 +22,38 @@
 
 ---
 
-### 2. 嵌入式预约组件
-**优先级**: 中 | **难度**: 中等
+### 2. Embed Fallback 方案
+**优先级**: 低 | **难度**: 中等
 
-当前：点击按钮 → 跳转到 Cal.com 网站
-优化后：点击按钮 → 页面内弹出预约窗口
+当前：如果 Cal.com embed.js 加载失败，按钮无响应
+优化后：检测加载失败，降级为普通链接跳转
 
-实现代码：
-```html
-<!-- 在 </body> 前添加 -->
-<script src="https://cal.com/embed.js"></script>
-
-<!-- 按钮改成 -->
-<button data-cal-link="v1hairsalon">Book Online</button>
+实现思路：
+```javascript
+// 检测 Cal.com 是否加载成功
+if (!window.Cal) {
+  // 降级：把 button 替换为 <a> 链接
+  document.querySelectorAll('[data-cal-link]').forEach(btn => {
+    btn.onclick = () => window.open('https://cal.com/v1hairsalon', '_blank');
+  });
+}
 ```
 
-参考文档: https://cal.com/docs/embed
+### 3. SMS 短信通知（老板端）
+**优先级**: 高 | **难度**: 中等
+
+架构：Cal.com Webhook → Cloudflare Worker → Twilio SMS → 老板手机
+
+成本估算：~$26/月（10 店）
+
+待办：
+- [ ] 注册 Twilio 账号
+- [ ] 创建 Cloudflare Worker
+- [ ] 配置 Cal.com Webhook
 
 ---
 
-### 3. JSON-LD 结构化数据
+### 4. JSON-LD 结构化数据
 **优先级**: 低 | **难度**: 简单
 
 在现有 JSON-LD 中添加预约入口：
@@ -64,6 +76,7 @@
 - [x] Hero 区域 Book Online 按钮
 - [x] Contact 区域 Book Online 按钮
 - [x] Cal.com 集成 (v1hairsalon)
+- [x] **嵌入式预约组件** (点击按钮 → 页面内弹出)
 - [x] 测试通过 (10/10)
 - [x] Lint 通过
 - [x] PR #1 创建
