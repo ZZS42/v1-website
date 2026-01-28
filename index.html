@@ -1283,13 +1283,13 @@
         }
       });
 
-      // Touch gestures
-      lightbox.addEventListener('touchstart', function(e) {
+      // Touch gestures - bindto img element directly for better mobile support
+      lightboxImg.addEventListener('touchstart', function(e) {
         touchStartX = e.changedTouches[0].screenX;
         touchStartY = e.changedTouches[0].screenY;
       }, { passive: true });
 
-      lightbox.addEventListener('touchmove', function(e) {
+      lightboxImg.addEventListener('touchmove', function(e) {
         var deltaX = e.changedTouches[0].screenX - touchStartX;
         var deltaY = e.changedTouches[0].screenY - touchStartY;
         // Visual feedback during vertical swipe
@@ -1303,14 +1303,14 @@
         }
       }, { passive: true });
 
-      lightbox.addEventListener('touchend', function(e) {
+      lightboxImg.addEventListener('touchend', function(e) {
         touchEndX = e.changedTouches[0].screenX;
         touchEndY = e.changedTouches[0].screenY;
         handleSwipe();
       }, { passive: true });
 
       // Handle touch interruption (e.g., incoming call)
-      lightbox.addEventListener('touchcancel', function() {
+      lightboxImg.addEventListener('touchcancel', function() {
         lightboxImg.style.transform = '';
         lightboxImg.style.opacity = '';
       }, { passive: true });
